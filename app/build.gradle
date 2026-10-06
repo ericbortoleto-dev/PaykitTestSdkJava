@@ -2,6 +2,24 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+def sdkPayServicesVersion = "2.2.0.+"
+
+def flavors = [
+        linxtef: 22,
+        linxtefadyen: 28,
+        linxtefgpos760: 22,
+        linxtefgpos720: 22,
+        stone: 22,
+        pagseguro: 23,
+        vero: 22,
+        getnet: 22,
+        rede: 28,
+        cielo: 25,
+        sicoob: 24,
+        sitef: 22,
+        gsurf: 26
+]
+
 android {
     namespace 'com.linx.paykit.demo'
     compileSdk {
@@ -25,6 +43,17 @@ android {
             }
         }
     }
+
+    flavorDimensions "providers"
+    productFlavors {
+        flavors.each { flavorName, flavorMinSdk ->
+            create(flavorName) {
+                dimension "providers"
+                minSdk flavorMinSdk
+            }
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -40,9 +69,13 @@ dependencies {
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.ext.junit
 
-    // SDK Único
-    implementation("SDKPayServices:core-stone:2.2.0.+")
-    implementation("SDKPayServices:stone:2.2.0.+")
-    implementation("SDKPayServices:config:2.2.0.+")
-    implementation("SDKPayServices:common:2.2.0.+")
+    // 1. Dependências COMUNS do SDK (vão para todos os flavors)
+    implementation "SDKPayServices:config:$sdkPayServicesVersion"
+    implementation "SDKPayServices:common:$sdkPayServicesVersion"
+
+    // 2. Dependências DINÂMICAS por flavor
+    flavors.each { flavorName, _ ->
+        add("${flavorName}Implementation", "SDKPayServices:core-${flavorName}:$sdkPayServicesVersion")
+        add("${flavorName}Implementation", "SDKPayServices:${flavorName}:$sdkPayServicesVersion")
+    }
 }

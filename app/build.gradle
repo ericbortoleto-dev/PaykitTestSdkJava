@@ -22,14 +22,12 @@ def flavors = [
 
 android {
     namespace 'com.linx.paykit.demo'
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.linx.paykit.demo"
         minSdk 24
-        targetSdk 37
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -38,9 +36,7 @@ android {
 
     buildTypes {
         release {
-            optimization {
-                enable false
-            }
+            minifyEnabled false
         }
     }
 

@@ -1,7 +1,10 @@
 package com.linx.paykit.demo;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -11,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.linx.paykit.common.activation.ActivationParameters;
+import com.linx.paykit.common.activation.ActivationResult;
 import com.linx.paykit.common.activation.PagSeguroActivationParameters;
 import com.linx.paykit.common.activation.SitefActivationParameters;
 import com.linx.paykit.common.activation.SubAcquirerParameters;
@@ -36,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        paykit = PaykitBuilder.buildPaykit(this);
+        paykit = buildDemoPaykit(this);
 
+        // Parâmetros de ativação alinhados com a versão mais recente do demo (`ActivationScreen.kt`)
         activationParameters = new ActivationParameters(
                 "12839955000116",
                 new TefActivationParameters(),
@@ -46,24 +51,21 @@ public class MainActivity extends AppCompatActivity {
                 TipoServidor.LinxTef,
                 false,
                 new SubAcquirerParameters()
-        ); // 1 por cliente
+        );
 
-        // Configurações Linxtef
+        // Configurações TEF atualizadas
         if (activationParameters.getTef() != null) {
-            activationParameters.getTef().setProduction(false);
-            activationParameters.getTef().setToken("Rw$b05;$m2J6}Gq7wh@]"); // 1 por ambiente (HML/PRD) - fornecido pela Linx
+            activationParameters.getTef().setToken("Rw$b05;$m2J6}Gq7wh@]");
+            activationParameters.getTef().setHost("https://cposweb-hml.linxsaas.com.br/cposweb/api/conversor");
         }
 
-        // Configurações PagSeguro
-        if (activationParameters.getPagSeguro() != null) {
-            activationParameters.getPagSeguro().setActivationCode("ACTIVATION_CODE_PAGSEGURO"); // 1 por cliente - fornecido pelo PagSeguro
-        }
-
-        // Configurações SiTef
+        // Configurações SiTef atualizadas
         if (activationParameters.getSitef() != null) {
-            activationParameters.getSitef().setSitefHost("HOST_SITEF");
-            activationParameters.getSitef().setSitefCompanyCode("CODIGO_EMPRESA_SITEF"); // 1 por cliente - fornecido pelo SiTef
-            activationParameters.getSitef().setTlsRegistrationToken("TOKEN_SITEF"); // 1 por X ativações e/ou Y tempo - fornecido pelo SiTef
+            activationParameters.getSitef().setSitefHost("https://cposweb-hml.linxsaas.com.br/cposweb/api/conversor");
+            activationParameters.getSitef().setSitefCompanyCode("LINX0001");
+            activationParameters.getSitef().setVanCnpj("54517628000198");
+            activationParameters.getSitef().setAutomationCnpj("54517628000198");
+            activationParameters.getSitef().setExternalCommunication("4"); // 0 em produção, 4 em homologação/teste
         }
 
         Button btnActivation = findViewById(R.id.btnActivation);
@@ -74,11 +76,13 @@ public class MainActivity extends AppCompatActivity {
                     boolean isActivated = ActivationCache.loadActivationState(MainActivity.this, activationParameters);
                     if (isActivated) {
                         Toast.makeText(MainActivity.this, "Terminal já está ativado!", Toast.LENGTH_SHORT).show();
+                        showActivationResult(new ActivationResult(null, null, true, "Terminal já está ativado", null));
                         return;
                     }
 
                     paykit.activate(activationParameters, result -> {
                         runOnUiThread(() -> {
+                            showActivationResult(result);
                             boolean success = result != null && result.getSuccess();
                             String message = result != null ? result.getMessage() : "Sem resposta";
                             if (success) {
@@ -94,6 +98,39 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Paykit ou parâmetros não inicializados", Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private Paykit buildDemoPaykit(android.app.Activity activity) {
+        return PaykitBuilder.buildPaykit((androidx.activity.ComponentActivity) activity);
+    }
+
+    private void showActivationResult(ActivationResult result) {
+        LinearLayout layoutResult = findViewById(R.id.layoutResult);
+        TextView tvResultStatus = findViewById(R.id.tvResultStatus);
+        TextView tvResultMessage = findViewById(R.id.tvResultMessage);
+
+        if (layoutResult != null && tvResultStatus != null && tvResultMessage != null) {
+            layoutResult.setVisibility(View.VISIBLE);
+            boolean success = result != null && result.getSuccess();
+            
+            String statusText = "Status: " + success;
+            if (result != null && result.getMessage() != null) {
+                statusText += "\nMessage: " + result.getMessage();
+            }
+            if (result != null && result.getRawData() != null) {
+                statusText += "\nData: " + result.getRawData();
+            }
+            
+            tvResultStatus.setText(statusText);
+            
+            String message = result != null ? result.getMessage() : null;
+            if (!success && message != null && !message.isEmpty()) {
+                tvResultMessage.setVisibility(View.VISIBLE);
+                tvResultMessage.setText("Status message: " + message);
+            } else {
+                tvResultMessage.setVisibility(View.GONE);
+            }
         }
     }
 }

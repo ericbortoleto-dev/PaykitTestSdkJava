@@ -1,99 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnActivation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ativação"
-        android:layout_margin="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:paddingBottom="40dp">
 
+        <Button
+            android:id="@+id/btnActivation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ativar SDK"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnPaymentTypes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Métodos de Pagamento"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnActivation" />
+        <Button
+            android:id="@+id/btnPaymentTypes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Métodos de Pagamento"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnPaymentTypesV2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Métodos de Pagamento V2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPaymentTypes" />
+        <Button
+            android:id="@+id/btnGetNsuOrToken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consultar NSU ou TOKEN"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnGetNsuOrToken"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Consultar NSU ou TOKEN"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPaymentTypesV2" />
+        <Button
+            android:id="@+id/btnManageTransaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gerenciar Transação"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnManageTransaction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="Gerenciar Transação"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGetNsuOrToken" />
+        <Button
+            android:id="@+id/btnCancelTransaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancelar Transação"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnCancelTransaction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_marginTop="59dp"
-        android:text="Cancelar Transação"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnManageTransaction" />
+        <Button
+            android:id="@+id/btnPrintCustomerReceipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Imprimir Via Cliente"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnPrintCustomerReceipt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="Gerenciar Transação"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCancelTransaction" />
+        <Button
+            android:id="@+id/btnPrintStoreReceipt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Imprimir Via Loja"
+            android:layout_marginBottom="16dp" />
 
-    <Button
-        android:id="@+id/btnPrintStoreReceipt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:text="Gerenciar Transação"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPrintCustomerReceipt" />
+        <LinearLayout
+            android:id="@+id/layoutResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#DDDDDD"
+            android:padding="16dp"
+            android:visibility="gone">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tvResultTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Resultado da Operação:"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tvResultStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tvResultMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

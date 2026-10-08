@@ -99,6 +99,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
+        Button btnPaymentTypes = findViewById(R.id.btnPaymentTypes);
+        if (btnPaymentTypes != null) {
+            btnPaymentTypes.setOnClickListener(v -> {
+                startActivity(new android.content.Intent(MainActivity.this, PaymentActivity.class));
+            });
+        }
     }
 
     private Paykit buildDemoPaykit(android.app.Activity activity) {

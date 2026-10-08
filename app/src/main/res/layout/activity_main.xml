@@ -35,6 +35,13 @@
             android:layout_marginBottom="16dp" />
 
         <Button
+            android:id="@+id/btnPreAuthorization"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pré Autorização"
+            android:layout_marginBottom="16dp" />
+
+        <Button
             android:id="@+id/btnManageTransaction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

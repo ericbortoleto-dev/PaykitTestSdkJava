@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFEFEF"
+    tools:context=".ActivationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:paddingBottom="40dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Parâmetros de Ativação"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp" />
+
+        <!-- CNPJ -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CNPJ do Estabelecimento"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/etCnpj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ex: 12839955000116"
+            android:text="12839955000116"
+            android:inputType="number"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Token TEF -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Token TEF"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/etToken"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Token TEF"
+            android:text="Rw$b05;$m2J6}Gq7wh@]"
+            android:inputType="text"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Host TEF -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Host TEF / SiTef"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/etHost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="https://..."
+            android:text="https://cposweb-hml.linxsaas.com.br/cposweb/api/conversor"
+            android:inputType="textUri"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Botão Ativar SDK -->
+        <Button
+            android:id="@+id/btnDoActivation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ativar SDK"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Resultado -->
+        <LinearLayout
+            android:id="@+id/layoutActivationResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#DDDDDD"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Resultado da Ativação:"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tvActivationResultStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+
+            <TextView
+                android:id="@+id/tvActivationResultMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

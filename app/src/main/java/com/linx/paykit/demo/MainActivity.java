@@ -71,39 +71,18 @@ public class MainActivity extends AppCompatActivity {
         Button btnActivation = findViewById(R.id.btnActivation);
         if (btnActivation != null) {
             btnActivation.setOnClickListener(v -> {
-                if (paykit != null && activationParameters != null) {
-                    // Verifica se o terminal já está ativado com estes mesmos parâmetros (cache)
-                    boolean isActivated = ActivationCache.loadActivationState(MainActivity.this, activationParameters);
-                    if (isActivated) {
-                        Toast.makeText(MainActivity.this, "Terminal já está ativado!", Toast.LENGTH_SHORT).show();
-                        showActivationResult(new ActivationResult(null, null, true, "Terminal já está ativado", null));
-                        return;
-                    }
-
-                    paykit.activate(activationParameters, result -> {
-                        runOnUiThread(() -> {
-                            showActivationResult(result);
-                            boolean success = result != null && result.getSuccess();
-                            String message = result != null ? result.getMessage() : "Sem resposta";
-                            if (success) {
-                                ActivationCache.saveActivationState(MainActivity.this, activationParameters);
-                                Toast.makeText(MainActivity.this, "Terminal ativado com sucesso!", Toast.LENGTH_LONG).show();
-                            } else {
-                                ActivationCache.clearActivationState(MainActivity.this);
-                                Toast.makeText(MainActivity.this, "Falha na ativação: " + message, Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    });
-                } else {
-                    Toast.makeText(MainActivity.this, "Paykit ou parâmetros não inicializados", Toast.LENGTH_SHORT).show();
-                }
+                android.content.Intent intent = new android.content.Intent(MainActivity.this, ActivationActivity.class);
+                intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             });
         }
 
         Button btnPaymentTypes = findViewById(R.id.btnPaymentTypes);
         if (btnPaymentTypes != null) {
             btnPaymentTypes.setOnClickListener(v -> {
-                startActivity(new android.content.Intent(MainActivity.this, PaymentActivity.class));
+                android.content.Intent intent = new android.content.Intent(MainActivity.this, PaymentActivity.class);
+                intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             });
         }
     }

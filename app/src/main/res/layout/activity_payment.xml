@@ -133,6 +133,22 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Prazo (Dias pós-crédito)"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/etPostCreditDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="0"
+                android:inputType="number"
+                android:text="0"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Número de Parcelas (Crédito Parcelado)"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray" />
@@ -146,29 +162,67 @@
                 android:text="1"
                 android:layout_marginBottom="12dp" />
 
+            <!-- JSON Provider -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Prazo (Dias pós-crédito)"
+                android:text="JSON Provider QR Linx ou Frotas"
                 android:textSize="14sp"
                 android:textColor="@android:color/darker_gray" />
 
             <EditText
-                android:id="@+id/etPostCreditDays"
+                android:id="@+id/etJsonQR"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="0"
-                android:inputType="number"
-                android:text="0"
+                android:hint="{}"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:gravity="top|start"
+                android:text='{\n"specific_wallets": [\n"PIX"\n]\n}'
+                android:layout_marginBottom="12dp" />
+
+            <!-- JSON Genérico -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="JSON Consulta Genérica QR Linx"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray" />
+
+            <EditText
+                android:id="@+id/etJsonQuery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="{}"
+                android:inputType="textMultiLine"
+                android:lines="3"
+                android:gravity="top|start"
+                android:text='{\n  "methodRequest": 2\n}'
                 android:layout_marginBottom="12dp" />
         </LinearLayout>
 
-        <!-- Botão Iniciar Pagamento -->
+        <!-- Botões -->
         <Button
             android:id="@+id/btnStartPayment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Iniciar Pagamento"
+            android:text="Iniciar pagamento"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnGenericPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Iniciar pagamento genérico"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnQueryReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consulta genérica QR Code"
             android:textSize="18sp"
             android:layout_marginBottom="16dp" />
 

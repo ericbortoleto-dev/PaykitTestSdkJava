@@ -25,6 +25,9 @@ import com.linx.paykit.common.parameter.type.VoucherTransactionType;
 import com.linx.paykit.core.Paykit;
 import com.linx.paykit.demo.util.PaykitBuilder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 
 public class PaymentActivity extends AppCompatActivity {
@@ -44,6 +47,10 @@ public class PaymentActivity extends AppCompatActivity {
     private LinearLayout layoutPaymentResult;
     private TextView tvPaymentResultStatus;
     private TextView tvPaymentResultMessage;
+    private EditText etJsonQR;
+    private EditText etJsonQuery;
+    private Button btnGenericPayment;
+    private Button btnQueryReport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +68,22 @@ public class PaymentActivity extends AppCompatActivity {
         etInstallments = findViewById(R.id.etInstallments);
         etPostCreditDays = findViewById(R.id.etPostCreditDays);
         btnStartPayment = findViewById(R.id.btnStartPayment);
+        etJsonQR = findViewById(R.id.etJsonQR);
+        etJsonQuery = findViewById(R.id.etJsonQuery);
+        btnGenericPayment = findViewById(R.id.btnGenericPayment);
+        btnQueryReport = findViewById(R.id.btnQueryReport);
+
+        layoutPaymentResult = findViewById(R.id.layoutPaymentResult);
+        tvPaymentResultStatus = findViewById(R.id.tvPaymentResultStatus);
+        tvPaymentResultMessage = findViewById(R.id.tvPaymentResultMessage);
 
         layoutPaymentResult = findViewById(R.id.layoutPaymentResult);
         tvPaymentResultStatus = findViewById(R.id.tvPaymentResultStatus);
         tvPaymentResultMessage = findViewById(R.id.tvPaymentResultMessage);
 
         btnStartPayment.setOnClickListener(v -> executePayment());
+        btnGenericPayment.setOnClickListener(v -> executeGenericPayment());
+        btnQueryReport.setOnClickListener(v -> executeQueryReport());
     }
 
     private void executePayment() {
@@ -121,7 +138,7 @@ public class PaymentActivity extends AppCompatActivity {
             boolean success = result != null && (result.getStatus() == TransactionStatus.COMPLETED || result.getStatus() == TransactionStatus.APPROVED);
             if (success) {
                 Toast.makeText(PaymentActivity.this, "Pagamento aprovado com sucesso!", Toast.LENGTH_LONG).show();
-            } else {
+            }else {
                 String msg = result != null ? result.getMessage() : "Erro desconhecido";
                 Toast.makeText(PaymentActivity.this, "Pagamento não aprovado: " + msg, Toast.LENGTH_LONG).show();
             }
@@ -148,7 +165,8 @@ public class PaymentActivity extends AppCompatActivity {
             );
             paykit.debit(params, callback);
 
-        } else if (checkedRadioButtonId == R.id.rbCredit) {
+        }
+        else if (checkedRadioButtonId == R.id.rbCredit) {
             CreditTransactionType creditType = installments > 1 ? CreditTransactionType.STORE_INSTALMENTS : CreditTransactionType.AT_SIGHT;
             CreditParameters params = new CreditParameters(
                     amount,
@@ -168,7 +186,8 @@ public class PaymentActivity extends AppCompatActivity {
             );
             paykit.credit(params, callback);
 
-        } else if (checkedRadioButtonId == R.id.rbPix) {
+        }
+        else if (checkedRadioButtonId == R.id.rbPix) {
             PaymentParameters params = new PaymentParameters(
                     amount,
                     null,
@@ -186,7 +205,8 @@ public class PaymentActivity extends AppCompatActivity {
             );
             paykit.pix(params, callback);
 
-        } else if (checkedRadioButtonId == R.id.rbVoucher) {
+        }
+        else if (checkedRadioButtonId == R.id.rbVoucher) {
             VoucherParameters params = new VoucherParameters(
                     amount,
                     null,
@@ -203,8 +223,67 @@ public class PaymentActivity extends AppCompatActivity {
                     merchantReceipt
             );
             paykit.voucher(params, callback);
-        } else {
+        }
+        else {
             Toast.makeText(this, "Selecione um tipo de pagamento", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void executeGenericPayment() {
+        BigDecimal amount = parseAmount(etAmount.getText().toString());
+        if (amount == null) return;
+
+        boolean autoConfirm = cbAutoConfirm.isChecked();
+        boolean autoPrint = cbAutoPrint.isChecked();
+        boolean merchantReceipt = cbMerchantReceipt.isChecked();
+
+        // Aqui você chamaria o equivalente em Java do 'startGenericPayment' do Kotlin
+        // Exemplo hipotético (ajuste conforme a assinatura real do seu Paykit):
+        /*
+        paykit.startGenericPayment(amount, autoConfirm, autoPrint, merchantReceipt, result -> {
+            runOnUiThread(() -> showPaymentResult(result));
+        });
+        */
+        Toast.makeText(this, "Implementar chamada Genérica na SDK", Toast.LENGTH_SHORT).show();
+    }
+
+    private void executeQueryReport() {
+        String jsonQueryStr = etJsonQuery.getText().toString().trim();
+        JSONObject queryJson;
+        try {
+            queryJson = new JSONObject(jsonQueryStr);
+        } catch (JSONException e) {
+            Toast.makeText(this, "JSON de Consulta Inválido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Aqui você chamaria o equivalente em Java do '(paykit as QueryReport).queryReport'
+        /*
+        if (paykit instanceof QueryReport) {
+            ((QueryReport) paykit).queryReport(queryJson, result -> {
+                 runOnUiThread(() -> showPaymentResult(result));
+            });
+        }
+        */
+        Toast.makeText(this, "Implementar chamada QueryReport na SDK", Toast.LENGTH_SHORT).show();
+    }
+
+    // Método auxiliar para não repetir o parse do valor
+    private BigDecimal parseAmount(String amountStr) {
+        if (amountStr.trim().isEmpty()) {
+            Toast.makeText(this, "Informe o valor", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        try {
+            BigDecimal amount = new BigDecimal(amountStr);
+            if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+                Toast.makeText(this, "O valor deve ser maior que zero", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+            return amount;
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Valor inválido", Toast.LENGTH_SHORT).show();
+            return null;
         }
     }
 

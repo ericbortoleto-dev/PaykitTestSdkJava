@@ -149,6 +149,16 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
+        List<OrderItem> items = Collections.singletonList(
+                new OrderItem(
+                        "1",
+                        "Produto",
+                        amount.multiply(BigDecimal.valueOf(100)).longValue(),
+                        1,
+                        "UN"
+                )
+        );
+
         if (checkedRadioButtonId == R.id.rbDebit) {
             DebitParameters params = new DebitParameters(
                     amount,

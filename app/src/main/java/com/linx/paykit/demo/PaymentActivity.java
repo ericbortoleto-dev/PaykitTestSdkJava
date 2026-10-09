@@ -234,11 +234,6 @@ public class PaymentActivity extends AppCompatActivity {
         BigDecimal amount = parseAmount(etAmount.getText().toString());
         if (amount == null) return;
 
-        String externalId = etExternalId.getText().toString().trim();
-        if (externalId.isEmpty()) {
-            externalId = String.valueOf(System.currentTimeMillis());
-        }
-
         boolean autoConfirm = cbAutoConfirm.isChecked();
         boolean autoPrint = cbAutoPrint.isChecked();
         boolean merchantReceipt = cbMerchantReceipt.isChecked();

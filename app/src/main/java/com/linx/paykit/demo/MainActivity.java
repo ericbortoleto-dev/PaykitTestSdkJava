@@ -1,11 +1,7 @@
 package com.linx.paykit.demo;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,19 +10,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.linx.paykit.common.activation.ActivationParameters;
-import com.linx.paykit.common.activation.ActivationResult;
 import com.linx.paykit.common.activation.PagSeguroActivationParameters;
 import com.linx.paykit.common.activation.SitefActivationParameters;
 import com.linx.paykit.common.activation.SubAcquirerParameters;
 import com.linx.paykit.common.activation.TefActivationParameters;
 import com.linx.paykit.common.activation.TipoServidor;
 import com.linx.paykit.core.Paykit;
-import com.linx.paykit.demo.util.ActivationCache;
 import com.linx.paykit.demo.util.PaykitBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Paykit paykit;
     private ActivationParameters activationParameters;
 
     @Override
@@ -40,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        paykit = buildDemoPaykit(this);
+        Paykit paykit = PaykitBuilder.buildPaykit(this);
 
         // Parâmetros de ativação alinhados com a versão mais recente do demo (`ActivationScreen.kt`)
         activationParameters = new ActivationParameters(
@@ -84,39 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             });
-        }
-    }
-
-    private Paykit buildDemoPaykit(android.app.Activity activity) {
-        return PaykitBuilder.buildPaykit((androidx.activity.ComponentActivity) activity);
-    }
-
-    private void showActivationResult(ActivationResult result) {
-        LinearLayout layoutResult = findViewById(R.id.layoutResult);
-        TextView tvResultStatus = findViewById(R.id.tvResultStatus);
-        TextView tvResultMessage = findViewById(R.id.tvResultMessage);
-
-        if (layoutResult != null && tvResultStatus != null && tvResultMessage != null) {
-            layoutResult.setVisibility(View.VISIBLE);
-            boolean success = result != null && result.getSuccess();
-            
-            String statusText = "Status: " + success;
-            if (result != null && result.getMessage() != null) {
-                statusText += "\nMessage: " + result.getMessage();
-            }
-            if (result != null && result.getRawData() != null) {
-                statusText += "\nData: " + result.getRawData();
-            }
-            
-            tvResultStatus.setText(statusText);
-            
-            String message = result != null ? result.getMessage() : null;
-            if (!success && message != null && !message.isEmpty()) {
-                tvResultMessage.setVisibility(View.VISIBLE);
-                tvResultMessage.setText("Status message: " + message);
-            } else {
-                tvResultMessage.setVisibility(View.GONE);
-            }
         }
     }
 }

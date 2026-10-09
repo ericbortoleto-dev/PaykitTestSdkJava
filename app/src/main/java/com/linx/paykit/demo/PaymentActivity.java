@@ -17,13 +17,17 @@ import com.linx.paykit.common.PaymentResult;
 import com.linx.paykit.common.TransactionStatus;
 import com.linx.paykit.common.parameter.CreditParameters;
 import com.linx.paykit.common.parameter.DebitParameters;
+import com.linx.paykit.common.OrderItem;
 import com.linx.paykit.common.parameter.PaymentParameters;
 import com.linx.paykit.common.parameter.StartPaymentParameters;
 import com.linx.paykit.common.parameter.VoucherParameters;
+import java.util.Collections;
+import java.util.List;
 import com.linx.paykit.common.parameter.type.CreditTransactionType;
 import com.linx.paykit.common.parameter.type.DebitTransactionType;
 import com.linx.paykit.common.parameter.type.VoucherTransactionType;
 import com.linx.paykit.core.Paykit;
+import com.linx.paykit.demo.util.LastTransactionHolder;
 import com.linx.paykit.demo.util.PaykitBuilder;
 
 import org.json.JSONException;
@@ -139,7 +143,7 @@ public class PaymentActivity extends AppCompatActivity {
             boolean success = result != null && (result.getStatus() == TransactionStatus.COMPLETED || result.getStatus() == TransactionStatus.APPROVED);
             if (success) {
                 Toast.makeText(PaymentActivity.this, "Pagamento aprovado com sucesso!", Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 String msg = result != null ? result.getMessage() : "Erro desconhecido";
                 Toast.makeText(PaymentActivity.this, "Pagamento não aprovado: " + msg, Toast.LENGTH_LONG).show();
             }
@@ -153,7 +157,7 @@ public class PaymentActivity extends AppCompatActivity {
                     null,
                     null,
                     externalId,
-                    null,
+                    items,
                     autoPrint,
                     null,
                     null,
@@ -176,7 +180,7 @@ public class PaymentActivity extends AppCompatActivity {
                     null,
                     null,
                     externalId,
-                    null,
+                    items,
                     autoPrint,
                     null,
                     postCreditDays > 0 ? postCreditDays : null,
@@ -196,7 +200,7 @@ public class PaymentActivity extends AppCompatActivity {
                     null,
                     null,
                     externalId,
-                    null,
+                    items,
                     autoPrint,
                     null,
                     null,
@@ -215,7 +219,7 @@ public class PaymentActivity extends AppCompatActivity {
                     null,
                     null,
                     externalId,
-                    null,
+                    items,
                     autoPrint,
                     null,
                     VoucherTransactionType.FOOD,
@@ -234,14 +238,29 @@ public class PaymentActivity extends AppCompatActivity {
         BigDecimal amount = parseAmount(etAmount.getText().toString());
         if (amount == null) return;
 
+        String externalId = etExternalId.getText().toString().trim();
+        if (externalId.isEmpty()) {
+            externalId = String.valueOf(System.currentTimeMillis());
+        }
+
         boolean autoConfirm = cbAutoConfirm.isChecked();
         boolean autoPrint = cbAutoPrint.isChecked();
         boolean merchantReceipt = cbMerchantReceipt.isChecked();
 
+        List<OrderItem> items = Collections.singletonList(
+                new OrderItem(
+                        "1",
+                        "Produto",
+                        amount.multiply(BigDecimal.valueOf(100)).longValue(),
+                        1,
+                        "UN"
+                )
+        );
+
         StartPaymentParameters params = new StartPaymentParameters(
                 amount,
-                null,
-                null,
+                externalId,
+                items,
                 autoConfirm,
                 autoPrint,
                 merchantReceipt

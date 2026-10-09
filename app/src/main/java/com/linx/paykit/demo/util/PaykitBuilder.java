@@ -24,7 +24,7 @@ public class PaykitBuilder {
                 new Parameters(
                         activity,
                         "AppTeste",
-                        new PaykitId("DEV-F2A7D071-3C89-4AB3-8FB8-21F29B62B813"), // 1 por automação comercial por ambiente (DEV/HML/PRD) - fornecido pela Linx
+                        new PaykitId("HML-B256A8D9-42B9-45DA-AB63-D31FA5BEF748"), // 1 por automação comercial por ambiente (DEV/HML/PRD) - fornecido pela Linx
                         null
                 )
         );

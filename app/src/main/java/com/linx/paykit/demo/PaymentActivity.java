@@ -18,6 +18,7 @@ import com.linx.paykit.common.TransactionStatus;
 import com.linx.paykit.common.parameter.CreditParameters;
 import com.linx.paykit.common.parameter.DebitParameters;
 import com.linx.paykit.common.parameter.PaymentParameters;
+import com.linx.paykit.common.parameter.StartPaymentParameters;
 import com.linx.paykit.common.parameter.VoucherParameters;
 import com.linx.paykit.common.parameter.type.CreditTransactionType;
 import com.linx.paykit.common.parameter.type.DebitTransactionType;
@@ -233,18 +234,36 @@ public class PaymentActivity extends AppCompatActivity {
         BigDecimal amount = parseAmount(etAmount.getText().toString());
         if (amount == null) return;
 
+        String externalId = etExternalId.getText().toString().trim();
+        if (externalId.isEmpty()) {
+            externalId = String.valueOf(System.currentTimeMillis());
+        }
+
         boolean autoConfirm = cbAutoConfirm.isChecked();
         boolean autoPrint = cbAutoPrint.isChecked();
         boolean merchantReceipt = cbMerchantReceipt.isChecked();
 
-        // Aqui você chamaria o equivalente em Java do 'startGenericPayment' do Kotlin
-        // Exemplo hipotético (ajuste conforme a assinatura real do seu Paykit):
-        /*
-        paykit.startGenericPayment(amount, autoConfirm, autoPrint, merchantReceipt, result -> {
-            runOnUiThread(() -> showPaymentResult(result));
+        StartPaymentParameters params = new StartPaymentParameters(
+                amount,
+                null,
+                null,
+                autoConfirm,
+                autoPrint,
+                merchantReceipt
+        );
+
+        Callback<PaymentResult> callback = result -> runOnUiThread(() -> {
+            showPaymentResult(result);
+            boolean success = result != null && (result.getStatus() == TransactionStatus.COMPLETED || result.getStatus() == TransactionStatus.APPROVED);
+            if (success) {
+                Toast.makeText(PaymentActivity.this, "Pagamento genérico aprovado com sucesso!", Toast.LENGTH_LONG).show();
+            } else {
+                String msg = result != null ? result.getMessage() : "Erro desconhecido";
+                Toast.makeText(PaymentActivity.this, "Pagamento genérico não aprovado: " + msg, Toast.LENGTH_LONG).show();
+            }
         });
-        */
-        Toast.makeText(this, "Implementar chamada Genérica na SDK", Toast.LENGTH_SHORT).show();
+
+        paykit.startPayment(params, callback);
     }
 
     private void executeQueryReport() {

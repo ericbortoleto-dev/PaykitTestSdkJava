@@ -78,5 +78,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+
+        Button btnGetNsuOrToken = findViewById(R.id.btnGetNsuOrToken);
+        if (btnGetNsuOrToken != null) {
+            btnGetNsuOrToken.setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(MainActivity.this, GetTransactionActivity.class);
+                intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            });
+        }
     }
 }

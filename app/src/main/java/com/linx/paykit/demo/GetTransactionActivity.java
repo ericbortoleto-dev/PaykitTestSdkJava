@@ -55,7 +55,17 @@ public class GetTransactionActivity extends AppCompatActivity {
         btnSearch.setOnClickListener(v -> executeQuery());
         btnClose.setOnClickListener(v -> finish());
 
+        // Preenche automaticamente com a última transação aprovada (se houver) para facilitar testes
+        String lastTxId = com.linx.paykit.demo.util.LastTransactionHolder.getLastTransactionId();
+        String lastExtId = com.linx.paykit.demo.util.LastTransactionHolder.getLastExternalId();
 
+        if (lastExtId != null && !lastExtId.isEmpty()) {
+            etTransactionId.setText(lastExtId);
+            cbIsExternalId.setChecked(true);
+        } else if (lastTxId != null && !lastTxId.isEmpty()) {
+            etTransactionId.setText(lastTxId);
+            cbIsExternalId.setChecked(false);
+        }
     }
 
     private void executeQuery() {

@@ -142,6 +142,14 @@ public class PaymentActivity extends AppCompatActivity {
             showPaymentResult(result);
             boolean success = result != null && (result.getStatus() == TransactionStatus.COMPLETED || result.getStatus() == TransactionStatus.APPROVED);
             if (success) {
+                if (result != null) {
+                    String txId = result.getId();
+                    String extId = result.getExternalId();
+                    if (extId == null || extId.isEmpty()) {
+                        extId = etExternalId.getText().toString().trim();
+                    }
+                    com.linx.paykit.demo.util.LastTransactionHolder.setLastTransaction(txId, extId);
+                }
                 Toast.makeText(PaymentActivity.this, "Pagamento aprovado com sucesso!", Toast.LENGTH_LONG).show();
             } else {
                 String msg = result != null ? result.getMessage() : "Erro desconhecido";

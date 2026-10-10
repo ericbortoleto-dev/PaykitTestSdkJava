@@ -89,5 +89,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             });
         }
+
+        Button btnPreAuthorization = findViewById(R.id.btnPreAuthorization);
+        if (btnPreAuthorization != null) {
+            btnPreAuthorization.setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(MainActivity.this, PreAuthorizationActivity.class);
+                intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            });
+        }
     }
 }

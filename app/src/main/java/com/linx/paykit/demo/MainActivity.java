@@ -1,6 +1,7 @@
 package com.linx.paykit.demo;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -16,6 +17,7 @@ import com.linx.paykit.common.activation.SitefActivationParameters;
 import com.linx.paykit.common.activation.SubAcquirerParameters;
 import com.linx.paykit.common.activation.TefActivationParameters;
 import com.linx.paykit.common.activation.TipoServidor;
+import com.linx.paykit.common.parameter.ReceiptType;
 import com.linx.paykit.core.Paykit;
 import com.linx.paykit.demo.util.PaykitBuilder;
 
@@ -105,6 +107,28 @@ public class MainActivity extends AppCompatActivity {
                 android.content.Intent intent = new android.content.Intent(MainActivity.this, PreAuthorizationActivity.class);
                 intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
+            });
+        }
+
+        Button btnPrintCustomerReceipt = findViewById(R.id.btnPrintCustomerReceipt);
+        if (btnPrintCustomerReceipt != null) {
+            btnPrintCustomerReceipt.setOnClickListener(view -> {
+                paykit.printLastReceipt(ReceiptType.CLIENT, result -> {
+                    runOnUiThread(() -> {
+                        android.widget.Toast.makeText(MainActivity.this, result.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                    })
+                ;});
+            });
+        }
+
+        Button btnPrintStoreReceipt = findViewById(R.id.btnPrintStoreReceipt);
+        if (btnPrintStoreReceipt != null) {
+            btnPrintStoreReceipt.setOnClickListener(view -> {
+                paykit.printLastReceipt(ReceiptType.CLIENT, result -> {
+                    runOnUiThread(() -> {
+                        android.widget.Toast.makeText(MainActivity.this, result.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                    })
+                ;});
             });
         }
     }

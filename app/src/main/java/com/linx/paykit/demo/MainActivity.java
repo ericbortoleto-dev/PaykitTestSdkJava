@@ -1,7 +1,7 @@
 package com.linx.paykit.demo;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
@@ -101,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        Button btnManageTransaction = findViewById(R.id.btnManageTransaction);
-        if (btnManageTransaction != null) {
-            btnManageTransaction.setOnClickListener(v -> {
-                android.content.Intent intent = new android.content.Intent(MainActivity.this, PreAuthorizationActivity.class);
-                intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        Button btnManagePreAuthorization = findViewById(R.id.btnManagePreAuthorization);
+        if (btnManagePreAuthorization != null) {
+            btnManagePreAuthorization.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, ManageTransaction.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             });
         }

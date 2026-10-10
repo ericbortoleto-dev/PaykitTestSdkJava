@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEFEF"
-    tools:context="com.linx.paykit.demo.PreAuthorizationActivity">
+    tools:context="com.linx.paykit.demo.ManageTransaction">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pre-autorizacao de Credito"
+            android:text="Gerenciar Pre-autorizacao"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -24,42 +24,57 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Valor da Pre-autorizacao"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
-
-        <EditText
-            android:id="@+id/etAmount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="10.00"
-            android:inputType="numberDecimal"
+            android:text="(Captura / Cancelamento)"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_marginBottom="12dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ID Automacao (External ID)"
+            android:text="ID da Transacao (PreId / NSU)"
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray" />
 
         <EditText
-            android:id="@+id/etExternalId"
+            android:id="@+id/etPreId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Deixe em branco para gerar automatico"
+            android:hint="ID retornado na pre-autorizacao"
             android:inputType="text"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Valor da Captura (opcional)"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/etCaptureAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="10.00"
+            android:inputType="numberDecimal"
             android:layout_marginBottom="16dp" />
 
         <Button
-            android:id="@+id/btnPreAuthorize"
+            android:id="@+id/btnCapturePreAuth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1. Executar Pre-autorizacao"
+            android:text="2. Capturar Pre-autorizacao"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnCancelPreAuth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3. Cancelar Pre-autorizacao"
             android:textSize="16sp"
             android:layout_marginBottom="24dp" />
-
-<!--    Results     -->
 
         <LinearLayout
             android:id="@+id/layoutResult"

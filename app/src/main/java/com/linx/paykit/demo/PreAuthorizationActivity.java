@@ -33,11 +33,6 @@ public class PreAuthorizationActivity extends AppCompatActivity {
     private EditText etExternalId;
     private Button btnPreAuthorize;
 
-    private EditText etPreId;
-    private EditText etCaptureAmount;
-    private Button btnCapturePreAuth;
-    private Button btnCancelPreAuth;
-
     private LinearLayout layoutResult;
     private TextView tvResultStatus;
     private TextView tvResultMessage;
@@ -53,23 +48,16 @@ public class PreAuthorizationActivity extends AppCompatActivity {
         etExternalId = findViewById(R.id.etExternalId);
         btnPreAuthorize = findViewById(R.id.btnPreAuthorize);
 
-        etPreId = findViewById(R.id.etPreId);
-        etCaptureAmount = findViewById(R.id.etCaptureAmount);
-        btnCapturePreAuth = findViewById(R.id.btnCapturePreAuth);
-        btnCancelPreAuth = findViewById(R.id.btnCancelPreAuth);
-
         layoutResult = findViewById(R.id.layoutResult);
         tvResultStatus = findViewById(R.id.tvResultStatus);
         tvResultMessage = findViewById(R.id.tvResultMessage);
 
         btnPreAuthorize.setOnClickListener(v -> executePreAuthorization());
-        btnCapturePreAuth.setOnClickListener(v -> executeCapture());
-        btnCancelPreAuth.setOnClickListener(v -> executeCancel());
 
         // Preenche com o ID da última transação se houver
         String lastTxId = com.linx.paykit.demo.util.LastTransactionHolder.getLastTransactionId();
         if (lastTxId != null && !lastTxId.isEmpty()) {
-            etPreId.setText(lastTxId);
+            etExternalId.setText(lastTxId);
         }
     }
 
@@ -120,90 +108,13 @@ public class PreAuthorizationActivity extends AppCompatActivity {
                 boolean success = result != null && (result.getStatus() == TransactionStatus.APPROVED || result.getStatus() == TransactionStatus.COMPLETED);
                 if (success) {
                     if (result != null && result.getId() != null) {
-                        etPreId.setText(result.getId());
+                        etExternalId.setText(result.getId());
                         LastTransactionHolder.setLastTransaction(result.getId(), externalId);
                     }
                     Toast.makeText(PreAuthorizationActivity.this, "Pré-autorização aprovada com sucesso!", Toast.LENGTH_LONG).show();
                 } else {
                     String msg = result != null ? result.getMessage() : "Erro desconhecido";
                     Toast.makeText(PreAuthorizationActivity.this, "Pré-autorização não aprovada: " + msg, Toast.LENGTH_LONG).show();
-                }
-            }));
-        } else {
-            Toast.makeText(this, "Paykit não suporta PreAuthorizationPayment", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void executeCapture() {
-        String preId = etPreId.getText().toString().trim();
-        if (preId.isEmpty()) {
-            Toast.makeText(this, "Informe o ID da pré-autorização (PreId/NSU)", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        String amountStr = etCaptureAmount.getText().toString().trim();
-        BigDecimal amount = null;
-        if (!amountStr.isEmpty()) {
-            try {
-                amount = new BigDecimal(amountStr);
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, "Valor de captura inválido", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-        PendingPreParameters params = new PendingPreParameters(
-                preId,
-                amount,
-                null,
-                false,
-                false,
-                true,
-                true
-        );
-
-        if (paykit instanceof PreAuthorizationPayment) {
-            ((PreAuthorizationPayment) paykit).capturePreAuthorization(params, result -> runOnUiThread(() -> {
-                showResult(result);
-                boolean success = result != null && (result.getStatus() == TransactionStatus.APPROVED || result.getStatus() == TransactionStatus.COMPLETED);
-                if (success) {
-                    Toast.makeText(PreAuthorizationActivity.this, "Captura realizada com sucesso!", Toast.LENGTH_LONG).show();
-                } else {
-                    String msg = result != null ? result.getMessage() : "Erro desconhecido";
-                    Toast.makeText(PreAuthorizationActivity.this, "Falha na captura: " + msg, Toast.LENGTH_LONG).show();
-                }
-            }));
-        } else {
-            Toast.makeText(this, "Paykit não suporta PreAuthorizationPayment", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void executeCancel() {
-        String preId = etPreId.getText().toString().trim();
-        if (preId.isEmpty()) {
-            Toast.makeText(this, "Informe o ID da pré-autorização (PreId/NSU)", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        PendingPreParameters params = new PendingPreParameters(
-                preId,
-                null,
-                null,
-                false,
-                false,
-                true,
-                true
-        );
-
-        if (paykit instanceof PreAuthorizationPayment) {
-            ((PreAuthorizationPayment) paykit).cancelPreAuthorization(params, result -> runOnUiThread(() -> {
-                showCancelResult(result);
-                boolean success = result != null && result.getStatus() == TransactionStatus.CANCELLED;
-                if (success) {
-                    Toast.makeText(PreAuthorizationActivity.this, "Cancelamento realizado com sucesso!", Toast.LENGTH_LONG).show();
-                } else {
-                    String msg = result != null ? result.getMessage() : "Erro desconhecido";
-                    Toast.makeText(PreAuthorizationActivity.this, "Falha no cancelamento: " + msg, Toast.LENGTH_LONG).show();
                 }
             }));
         } else {
@@ -219,20 +130,6 @@ public class PreAuthorizationActivity extends AppCompatActivity {
             if (result.getId() != null) sb.append("\nID: ").append(result.getId());
             if (result.getMessage() != null) sb.append("\nMessage: ").append(result.getMessage());
             if (result.getRawData() != null) sb.append("\nData: ").append(result.getRawData());
-        } else {
-            sb.append("Sem resposta");
-        }
-        tvResultStatus.setText(sb.toString());
-        tvResultMessage.setVisibility(View.GONE);
-    }
-
-    private void showCancelResult(CancelResult result) {
-        layoutResult.setVisibility(View.VISIBLE);
-        StringBuilder sb = new StringBuilder();
-        if (result != null) {
-            sb.append("Status: ").append(result.getStatus());
-            if (result.getId() != null) sb.append("\nID: ").append(result.getId());
-            if (result.getMessage() != null) sb.append("\nMessage: ").append(result.getMessage());
         } else {
             sb.append("Sem resposta");
         }

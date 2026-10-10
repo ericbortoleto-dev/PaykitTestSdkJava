@@ -42,10 +42,10 @@
             android:layout_marginBottom="16dp" />
 
         <Button
-            android:id="@+id/btnManageTransaction"
+            android:id="@+id/btnManagePreAuthorization"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gerenciar Transação"
+            android:text="Gerenciar Pré Autorização"
             android:layout_marginBottom="16dp" />
 
         <Button

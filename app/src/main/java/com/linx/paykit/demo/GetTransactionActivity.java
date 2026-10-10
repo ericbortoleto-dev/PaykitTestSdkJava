@@ -82,11 +82,11 @@ public class GetTransactionActivity extends AppCompatActivity {
         layoutResult.setVisibility(View.GONE);
         btnSearch.setEnabled(false);
 
-        TransactionQueryParameters queryParameters;
+        TransactionQueryParameters queryParameters = new TransactionQueryParameters();
         if (isExtId) {
-            queryParameters = new TransactionQueryParameters(null, transactionId);
+            queryParameters.setExternalId(transactionId);
         } else {
-            queryParameters = new TransactionQueryParameters(transactionId, null);
+            queryParameters.setTransactionId(transactionId);
         }
 
         if (paykit instanceof TransactionQuery) {

@@ -2,6 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+def useLocalSdk = providers.gradleProperty("useLocalSdk")
+        .map { it.toBoolean() }
+        .orElse(false)
+        .get()
+
 def sdkPayServicesVersion = "2.2.0.+"
 
 def flavors = [
@@ -31,6 +36,11 @@ android {
         versionCode 1
         versionName "1.0"
 
+        if (useLocalSdk) {
+            missingDimensionStrategy("providers", "linxtef")
+            missingDimensionStrategy("edition", "full")
+        }
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -40,12 +50,76 @@ android {
         }
     }
 
-    flavorDimensions "providers"
-    productFlavors {
-        flavors.each { flavorName, flavorMinSdk ->
-            create(flavorName) {
-                dimension "providers"
-                minSdk flavorMinSdk
+    if (!useLocalSdk) {
+        flavorDimensions "providers"
+        productFlavors {
+            flavors.each { flavorName, flavorMinSdk ->
+                create(flavorName) {
+                    dimension "providers"
+                    minSdk flavorMinSdk
+                }
+            }
+        }
+    } else {
+        flavorDimensions += ['providers', 'tefDevice']
+        productFlavors {
+            create("linxtef") {
+                dimension = "providers"
+            }
+            create("cielo") {
+                dimension = "providers"
+                minSdk = 24
+                targetSdk = 29
+            }
+            create("stone") {
+                dimension = "providers"
+                minSdk = 24
+                targetSdk = 34
+            }
+            create("pagseguro") {
+                dimension = "providers"
+                minSdk = 23
+            }
+            create("rede") {
+                dimension = "providers"
+            }
+            create("getnet") {
+                dimension = "providers"
+                minSdk = 22
+            }
+            create("vero") {
+                dimension = "providers"
+                minSdk = 22
+            }
+            create("sicoob") {
+                dimension = "providers"
+                minSdk = 24
+                targetSdk = 34
+            }
+            create("sitef") {
+                dimension = "providers"
+            }
+            create("reduced") {
+                dimension = "providers"
+            }
+            create("default") {
+                dimension = "tefDevice"
+            }
+            create("adyen") {
+                dimension = "tefDevice"
+                minSdk = 28
+                targetSdk = 34
+            }
+            create("gpos790") {
+                dimension = "tefDevice"
+                minSdk = 26
+            }
+            create("gpos760") {
+                dimension = "tefDevice"
+            }
+            create("gpos720") {
+                dimension = "tefDevice"
+                minSdk = 26
             }
         }
     }
@@ -65,13 +139,24 @@ dependencies {
     androidTestImplementation libs.espresso.core
     androidTestImplementation libs.ext.junit
 
-    // 1. Dependências COMUNS do SDK (vão para todos os flavors)
-    implementation "SDKPayServices:config:$sdkPayServicesVersion"
-    implementation "SDKPayServices:common:$sdkPayServicesVersion"
+    if (useLocalSdk) {
+        implementation "SDKPayServices:core"
+        implementation "SDKPayServices:config"
+        implementation "SDKPayServices:common"
+        implementation "SDKPayServices:ui"
+        implementation "SDKPayServices:provider"
 
-    // 2. Dependências DINÂMICAS por flavor
-    flavors.each { flavorName, _ ->
-        add("${flavorName}Implementation", "SDKPayServices:core-${flavorName}:$sdkPayServicesVersion")
-        add("${flavorName}Implementation", "SDKPayServices:${flavorName}:$sdkPayServicesVersion")
+        println("Using local SDKPayServices from ../SDKPayServices")
+    } else {
+        // 1. Dependências COMUNS do SDK (vão para todos os flavors)
+        implementation "SDKPayServices:config:$sdkPayServicesVersion"
+        implementation "SDKPayServices:common:$sdkPayServicesVersion"
+
+        // 2. Dependências DINÂMICAS por flavor
+        flavors.each { flavorName, _ ->
+            add("${flavorName}Implementation", "SDKPayServices:core-${flavorName}:$sdkPayServicesVersion")
+            add("${flavorName}Implementation", "SDKPayServices:${flavorName}:$sdkPayServicesVersion")
+            println("Using published SDKPayServices $flavorName version $sdkPayServicesVersion")
+        }
     }
 }

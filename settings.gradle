@@ -17,7 +17,7 @@ dependencyResolutionManagement {
         def azureToken = providers.gradleProperty("AZURE_PERSONAL_ACCESS_TOKEN").orNull
                 ?: System.getenv("AZURE_PERSONAL_ACCESS_TOKEN")
         flatDir {
-            dirs 'libs'
+            dirs 'libs', '../SDKPayServices/libs'
         }
         maven {
             name = 'SDK_UNICO'
@@ -44,3 +44,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "Paykit Test SDK Java"
 include ':app'
+
+def useLocalSdk = providers.gradleProperty("useLocalSdk")
+        .map { it.toBoolean() }
+        .orElse(false)
+        .get()
+
+if (useLocalSdk) {
+    includeBuild("../SDKPayServices")
+}

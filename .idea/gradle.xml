@@ -4,13 +4,34 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
+        <compositeConfiguration>
+          <compositeBuild compositeDefinitionSource="SCRIPT">
+            <builds>
+              <build path="$PROJECT_DIR$/../SDKPayServices" name="SDKPayServices">
+                <projects>
+                  <project path="$PROJECT_DIR$/../SDKPayServices" />
+                  <project path="$PROJECT_DIR$/../SDKPayServices/common" />
+                  <project path="$PROJECT_DIR$/../SDKPayServices/config" />
+                  <project path="$PROJECT_DIR$/../SDKPayServices/core" />
+                  <project path="$PROJECT_DIR$/../SDKPayServices/provider" />
+                  <project path="$PROJECT_DIR$/../SDKPayServices/ui" />
+                </projects>
+              </build>
+            </builds>
+          </compositeBuild>
+        </compositeConfiguration>
         <option name="testRunner" value="CHOOSE_PER_TEST" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/../SDKPayServices" />
+            <option value="$PROJECT_DIR$/../SDKPayServices/common" />
+            <option value="$PROJECT_DIR$/../SDKPayServices/config" />
+            <option value="$PROJECT_DIR$/../SDKPayServices/core" />
+            <option value="$PROJECT_DIR$/../SDKPayServices/provider" />
+            <option value="$PROJECT_DIR$/../SDKPayServices/ui" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.linx.paykit.common.activation.ActivationParameters;
 import com.linx.paykit.common.activation.ActivationResult;
+import com.linx.paykit.common.activation.GSurfActivationParameters;
 import com.linx.paykit.common.activation.PagSeguroActivationParameters;
 import com.linx.paykit.common.activation.SitefActivationParameters;
 import com.linx.paykit.common.activation.SubAcquirerParameters;
@@ -70,7 +71,8 @@ public class ActivationActivity extends AppCompatActivity {
                 new SitefActivationParameters(),
                 TipoServidor.LinxTef,
                 false,
-                new SubAcquirerParameters()
+                new SubAcquirerParameters(),
+                new GSurfActivationParameters()
         );
 
         if (activationParameters.getTef() != null) {

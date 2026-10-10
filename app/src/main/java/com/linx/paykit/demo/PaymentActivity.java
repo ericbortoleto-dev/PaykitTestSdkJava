@@ -184,7 +184,8 @@ public class PaymentActivity extends AppCompatActivity {
                     DebitTransactionType.AT_SIGHT,
                     null,
                     autoConfirm,
-                    merchantReceipt
+                    merchantReceipt,
+                    false
             );
             paykit.debit(params, callback);
 
@@ -205,7 +206,8 @@ public class PaymentActivity extends AppCompatActivity {
                     creditType,
                     null,
                     autoConfirm,
-                    merchantReceipt
+                    merchantReceipt,
+                    false
             );
             paykit.credit(params, callback);
 
@@ -224,7 +226,8 @@ public class PaymentActivity extends AppCompatActivity {
                     null,
                     autoConfirm,
                     merchantReceipt,
-                    null
+                    null,
+                    false
             );
             paykit.pix(params, callback);
 
@@ -243,7 +246,8 @@ public class PaymentActivity extends AppCompatActivity {
                     VoucherTransactionType.FOOD,
                     null,
                     autoConfirm,
-                    merchantReceipt
+                    merchantReceipt,
+                    false
             );
             paykit.voucher(params, callback);
         }
@@ -281,7 +285,8 @@ public class PaymentActivity extends AppCompatActivity {
                 items,
                 autoConfirm,
                 autoPrint,
-                merchantReceipt
+                merchantReceipt,
+                false
         );
 
         Callback<PaymentResult> callback = result -> runOnUiThread(() -> {

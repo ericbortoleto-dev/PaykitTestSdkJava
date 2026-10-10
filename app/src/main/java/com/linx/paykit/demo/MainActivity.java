@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.linx.paykit.common.activation.ActivationParameters;
+import com.linx.paykit.common.activation.GSurfActivationParameters;
 import com.linx.paykit.common.activation.PagSeguroActivationParameters;
 import com.linx.paykit.common.activation.SitefActivationParameters;
 import com.linx.paykit.common.activation.SubAcquirerParameters;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 new SitefActivationParameters(),
                 TipoServidor.LinxTef,
                 false,
-                new SubAcquirerParameters()
+                new SubAcquirerParameters(),
+                new GSurfActivationParameters()
         );
 
         // Configurações TEF atualizadas

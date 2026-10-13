@@ -50,6 +50,12 @@ android {
         }
     }
 
+    android {
+        buildFeatures {
+            buildConfig = true
+        }
+    }
+
     if (!useLocalSdk) {
         flavorDimensions "providers"
         productFlavors {

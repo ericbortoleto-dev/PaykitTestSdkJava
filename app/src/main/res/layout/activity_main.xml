@@ -69,6 +69,79 @@
             android:text="Imprimir Via Loja"
             android:layout_marginBottom="16dp" />
 
+        <Button
+            android:id="@+id/btnSupport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Suporte"
+            android:textSize="18sp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Card de Suporte -->
+        <LinearLayout
+            android:id="@+id/layoutSupportCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#DDDDDD"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Versão do app:"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/tvAppVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Versão do SDK Único:"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/tvSdkUnicoVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Módulo TEF:"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@android:color/black" />
+            <TextView
+                android:id="@+id/tvTefModuleVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginBottom="16dp" />
+
+            <Button
+                android:id="@+id/btnCloseSupport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fechar suporte"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layoutResult"
             android:layout_width="match_parent"

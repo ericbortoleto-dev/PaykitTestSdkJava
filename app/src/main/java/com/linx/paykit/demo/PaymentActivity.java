@@ -13,27 +13,26 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.linx.paykit.common.Callback;
+import com.linx.paykit.common.OrderItem;
 import com.linx.paykit.common.PaymentResult;
 import com.linx.paykit.common.TransactionStatus;
 import com.linx.paykit.common.parameter.CreditParameters;
 import com.linx.paykit.common.parameter.DebitParameters;
-import com.linx.paykit.common.OrderItem;
 import com.linx.paykit.common.parameter.PaymentParameters;
 import com.linx.paykit.common.parameter.StartPaymentParameters;
 import com.linx.paykit.common.parameter.VoucherParameters;
-import java.util.Collections;
-import java.util.List;
 import com.linx.paykit.common.parameter.type.CreditTransactionType;
 import com.linx.paykit.common.parameter.type.DebitTransactionType;
 import com.linx.paykit.common.parameter.type.VoucherTransactionType;
 import com.linx.paykit.core.Paykit;
-import com.linx.paykit.demo.util.LastTransactionHolder;
 import com.linx.paykit.demo.util.PaykitBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -56,6 +55,7 @@ public class PaymentActivity extends AppCompatActivity {
     private EditText etJsonQuery;
     private Button btnGenericPayment;
     private Button btnQueryReport;
+    private Button btnTestReceipt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +77,7 @@ public class PaymentActivity extends AppCompatActivity {
         etJsonQuery = findViewById(R.id.etJsonQuery);
         btnGenericPayment = findViewById(R.id.btnGenericPayment);
         btnQueryReport = findViewById(R.id.btnQueryReport);
+        btnTestReceipt = findViewById(R.id.btnTestReceipt);
 
         layoutPaymentResult = findViewById(R.id.layoutPaymentResult);
         tvPaymentResultStatus = findViewById(R.id.tvPaymentResultStatus);
@@ -89,6 +90,7 @@ public class PaymentActivity extends AppCompatActivity {
         btnStartPayment.setOnClickListener(v -> executePayment());
         btnGenericPayment.setOnClickListener(v -> executeGenericPayment());
         btnQueryReport.setOnClickListener(v -> executeQueryReport());
+        btnTestReceipt.setOnClickListener(v -> printTestReceipt());
     }
 
     private void executePayment() {
@@ -365,6 +367,25 @@ public class PaymentActivity extends AppCompatActivity {
             tvPaymentResultMessage.setText("Detalhes: " + result.getMessage());
         } else {
             tvPaymentResultMessage.setVisibility(View.GONE);
+        }
+    }
+
+    private void printTestReceipt() {
+        try {
+            java.io.InputStream inputStream = getAssets().open("recibo.bmp");
+            android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeStream(inputStream);
+            inputStream.close();
+            if (bitmap != null && paykit != null) {
+                paykit.print(bitmap, printResult -> {
+                    android.util.Log.d("IMPRESSAO", "Success: " + printResult.getSuccess());
+                    runOnUiThread(() -> Toast.makeText(this, "Impressão concluída", Toast.LENGTH_SHORT).show());
+                });
+            } else {
+                Toast.makeText(this, "Falha ao decodificar recibo.bmp ou paykit nulo", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Erro ao imprimir recibo teste: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            android.util.Log.e("IMPRESSAO", "Erro ao carregar recibo.bmp", e);
         }
     }
 }

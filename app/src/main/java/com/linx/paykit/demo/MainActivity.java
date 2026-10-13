@@ -24,6 +24,12 @@ import com.linx.paykit.demo.util.PaykitBuilder;
 public class MainActivity extends AppCompatActivity {
 
     private ActivationParameters activationParameters;
+    private Button btnSupport;
+    private android.widget.LinearLayout layoutSupportCard;
+    private android.widget.TextView tvAppVersion;
+    private android.widget.TextView tvSdkUnicoVersion;
+    private android.widget.TextView tvTefModuleVersion;
+    private Button btnCloseSupport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +136,42 @@ public class MainActivity extends AppCompatActivity {
                     })
                 ;});
             });
+        }
+
+        btnSupport = findViewById(R.id.btnSupport);
+        layoutSupportCard = findViewById(R.id.layoutSupportCard);
+        tvAppVersion = findViewById(R.id.tvAppVersion);
+        tvSdkUnicoVersion = findViewById(R.id.tvSdkUnicoVersion);
+        tvTefModuleVersion = findViewById(R.id.tvTefModuleVersion);
+        btnCloseSupport = findViewById(R.id.btnCloseSupport);
+
+        if (btnSupport != null) {
+            btnSupport.setOnClickListener(v -> toggleSupport(true));
+        }
+        if (btnCloseSupport != null) {
+            btnCloseSupport.setOnClickListener(v -> toggleSupport(false));
+        }
+    }
+
+    private void toggleSupport(boolean show) {
+        if (layoutSupportCard != null && btnSupport != null) {
+            if (show) {
+                layoutSupportCard.setVisibility(android.view.View.VISIBLE);
+                btnSupport.setVisibility(android.view.View.GONE);
+
+                if (tvAppVersion != null) {
+                    tvAppVersion.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
+                }
+                if (tvSdkUnicoVersion != null) {
+                    tvSdkUnicoVersion.setText(com.linx.paykit.common.utility.SdkInfo.getSdkUnicoVersion());
+                }
+                if (tvTefModuleVersion != null) {
+                    tvTefModuleVersion.setText("1.0");
+                }
+            } else {
+                layoutSupportCard.setVisibility(android.view.View.GONE);
+                btnSupport.setVisibility(android.view.View.VISIBLE);
+            }
         }
     }
 }

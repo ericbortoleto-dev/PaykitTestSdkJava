@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEFEF"
-    tools:context="com.linx.paykit.demo.PreAuthorizationActivity">
+    tools:context="com.linx.paykit.demo.ui.PreAuthorizationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

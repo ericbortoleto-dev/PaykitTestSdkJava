@@ -1,4 +1,4 @@
-package com.linx.paykit.demo;
+package com.linx.paykit.demo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,10 @@ import com.linx.paykit.common.activation.TefActivationParameters;
 import com.linx.paykit.common.activation.TipoServidor;
 import com.linx.paykit.common.parameter.ReceiptType;
 import com.linx.paykit.core.Paykit;
+import com.linx.paykit.demo.BuildConfig;
+import com.linx.paykit.demo.GetTransactionActivity;
+import com.linx.paykit.demo.ManageTransaction;
+import com.linx.paykit.demo.R;
 import com.linx.paykit.demo.util.PaykitBuilder;
 
 public class MainActivity extends AppCompatActivity {

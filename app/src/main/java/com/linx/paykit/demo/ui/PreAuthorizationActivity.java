@@ -1,4 +1,4 @@
-package com.linx.paykit.demo;
+package com.linx.paykit.demo.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,15 +10,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.linx.paykit.common.CancelResult;
 import com.linx.paykit.common.OrderItem;
 import com.linx.paykit.common.PaymentResult;
 import com.linx.paykit.common.TransactionStatus;
 import com.linx.paykit.common.features.PreAuthorizationPayment;
 import com.linx.paykit.common.parameter.CreditParameters;
-import com.linx.paykit.common.parameter.PendingPreParameters;
 import com.linx.paykit.common.parameter.type.CreditTransactionType;
 import com.linx.paykit.core.Paykit;
+import com.linx.paykit.demo.R;
 import com.linx.paykit.demo.util.LastTransactionHolder;
 import com.linx.paykit.demo.util.PaykitBuilder;
 

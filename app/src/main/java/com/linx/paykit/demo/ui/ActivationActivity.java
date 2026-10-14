@@ -1,4 +1,4 @@
-package com.linx.paykit.demo;
+package com.linx.paykit.demo.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +19,7 @@ import com.linx.paykit.common.activation.SubAcquirerParameters;
 import com.linx.paykit.common.activation.TefActivationParameters;
 import com.linx.paykit.common.activation.TipoServidor;
 import com.linx.paykit.core.Paykit;
+import com.linx.paykit.demo.R;
 import com.linx.paykit.demo.util.ActivationCache;
 import com.linx.paykit.demo.util.PaykitBuilder;
 

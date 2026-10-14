@@ -1,4 +1,4 @@
-package com.linx.paykit.demo;
+package com.linx.paykit.demo.ui;
 
 import android.os.Bundle;
 import android.view.View;
@@ -24,8 +24,8 @@ import com.linx.paykit.common.parameter.VoucherParameters;
 import com.linx.paykit.common.parameter.type.CreditTransactionType;
 import com.linx.paykit.common.parameter.type.DebitTransactionType;
 import com.linx.paykit.common.parameter.type.VoucherTransactionType;
-import com.linx.paykit.core.Paykit;
-import com.linx.paykit.demo.util.PaykitBuilder;
+import com.linx.paykit.demo.R;
+import com.linx.paykit.tef.manager.PaykitManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,7 +36,7 @@ import java.util.List;
 
 public class PaymentActivity extends AppCompatActivity {
 
-    private Paykit paykit;
+    private PaykitManager paykitManager;
 
     private EditText etAmount;
     private EditText etExternalId;
@@ -62,7 +62,7 @@ public class PaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
 
-        paykit = PaykitBuilder.buildPaykit(this);
+        paykitManager = new PaykitManager(this);
 
         etAmount = findViewById(R.id.etAmount);
         etExternalId = findViewById(R.id.etExternalId);
@@ -78,10 +78,6 @@ public class PaymentActivity extends AppCompatActivity {
         btnGenericPayment = findViewById(R.id.btnGenericPayment);
         btnQueryReport = findViewById(R.id.btnQueryReport);
         btnTestReceipt = findViewById(R.id.btnTestReceipt);
-
-        layoutPaymentResult = findViewById(R.id.layoutPaymentResult);
-        tvPaymentResultStatus = findViewById(R.id.tvPaymentResultStatus);
-        tvPaymentResultMessage = findViewById(R.id.tvPaymentResultMessage);
 
         layoutPaymentResult = findViewById(R.id.layoutPaymentResult);
         tvPaymentResultStatus = findViewById(R.id.tvPaymentResultStatus);
@@ -189,7 +185,7 @@ public class PaymentActivity extends AppCompatActivity {
                     merchantReceipt,
                     false
             );
-            paykit.debit(params, callback);
+            paykitManager.debit(params, callback);
 
         }
         else if (checkedRadioButtonId == R.id.rbCredit) {
@@ -211,7 +207,7 @@ public class PaymentActivity extends AppCompatActivity {
                     merchantReceipt,
                     false
             );
-            paykit.credit(params, callback);
+            paykitManager.credit(params, callback);
 
         }
         else if (checkedRadioButtonId == R.id.rbPix) {
@@ -231,7 +227,7 @@ public class PaymentActivity extends AppCompatActivity {
                     null,
                     false
             );
-            paykit.pix(params, callback);
+            paykitManager.pix(params, callback);
 
         }
         else if (checkedRadioButtonId == R.id.rbVoucher) {
@@ -251,7 +247,7 @@ public class PaymentActivity extends AppCompatActivity {
                     merchantReceipt,
                     false
             );
-            paykit.voucher(params, callback);
+            paykitManager.voucher(params, callback);
         }
         else {
             Toast.makeText(this, "Selecione um tipo de pagamento", Toast.LENGTH_SHORT).show();
@@ -302,7 +298,7 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
-        paykit.startPayment(params, callback);
+        paykitManager.startPayment(params, callback);
     }
 
     private void executeQueryReport() {
@@ -314,19 +310,9 @@ public class PaymentActivity extends AppCompatActivity {
             Toast.makeText(this, "JSON de Consulta Inválido", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Aqui você chamaria o equivalente em Java do '(paykit as QueryReport).queryReport'
-        /*
-        if (paykit instanceof QueryReport) {
-            ((QueryReport) paykit).queryReport(queryJson, result -> {
-                 runOnUiThread(() -> showPaymentResult(result));
-            });
-        }
-        */
         Toast.makeText(this, "Implementar chamada QueryReport na SDK", Toast.LENGTH_SHORT).show();
     }
 
-    // Método auxiliar para não repetir o parse do valor
     private BigDecimal parseAmount(String amountStr) {
         if (amountStr.trim().isEmpty()) {
             Toast.makeText(this, "Informe o valor", Toast.LENGTH_SHORT).show();
@@ -375,8 +361,8 @@ public class PaymentActivity extends AppCompatActivity {
             java.io.InputStream inputStream = getAssets().open("recibo.bmp");
             android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeStream(inputStream);
             inputStream.close();
-            if (bitmap != null && paykit != null) {
-                paykit.print(bitmap, printResult -> {
+            if (bitmap != null && paykitManager.getPaykit() != null) {
+                paykitManager.getPaykit().print(bitmap, printResult -> {
                     android.util.Log.d("IMPRESSAO", "Success: " + printResult.getSuccess());
                     runOnUiThread(() -> Toast.makeText(this, "Impressão concluída", Toast.LENGTH_SHORT).show());
                 });

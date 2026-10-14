@@ -14,10 +14,10 @@ public class PaykitBuilder {
         // Métodos de companion object em Kotlin sem @JvmStatic são acessados via .Companion em Java
         PaykitUiModel.Companion.build(
                 activity,
-                null,
-                true,
-                false,
-                kotlinx.coroutines.Dispatchers.getIO()
+                null,                               // callback opcional
+                true,                                       // useInternalScreens, deixar false para uso de telas customizadas
+                true,                                       // isDebuggable
+                kotlinx.coroutines.Dispatchers.getIO()      // dispatcher IO
         );
 
         return new PaykitFactory().build(

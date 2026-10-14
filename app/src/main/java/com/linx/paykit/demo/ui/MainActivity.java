@@ -22,6 +22,7 @@ import com.linx.paykit.core.Paykit;
 import com.linx.paykit.demo.BuildConfig;
 import com.linx.paykit.demo.GetTransactionActivity;
 import com.linx.paykit.demo.ManageTransaction;
+import com.linx.paykit.demo.TransactionManagementActivity;
 import com.linx.paykit.demo.R;
 import com.linx.paykit.demo.util.PaykitBuilder;
 
@@ -97,6 +98,15 @@ public class MainActivity extends AppCompatActivity {
         if (btnGetNsuOrToken != null) {
             btnGetNsuOrToken.setOnClickListener(v -> {
                 android.content.Intent intent = new android.content.Intent(MainActivity.this, GetTransactionActivity.class);
+                intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            });
+        }
+
+        Button btnManageTransaction = findViewById(R.id.btnManageTransaction);
+        if (btnManageTransaction != null) {
+            btnManageTransaction.setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(MainActivity.this, TransactionManagementActivity.class);
                 intent.addFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP | android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             });

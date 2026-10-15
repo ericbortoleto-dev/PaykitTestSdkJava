@@ -7,7 +7,7 @@ def useLocalSdk = providers.gradleProperty("useLocalSdk")
         .orElse(false)
         .get()
 
-def sdkPayServicesVersion = "2.2.0.+"
+def sdkPayServicesVersion = "2.3.2.586.1791489851"
 
 def flavors = [
         linxtef: 22,

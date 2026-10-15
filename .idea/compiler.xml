@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="SDKPayServices.common" target="1.8" />
+      <module name="SDKPayServices.config" target="1.8" />
+      <module name="SDKPayServices.core" target="1.8" />
+      <module name="SDKPayServices.ui" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

@@ -18,6 +18,7 @@ import com.linx.paykit.common.activation.SubAcquirerParameters;
 import com.linx.paykit.common.activation.TefActivationParameters;
 import com.linx.paykit.common.activation.TipoServidor;
 import com.linx.paykit.common.parameter.ReceiptType;
+import com.linx.paykit.common.utility.SdkInfo;
 import com.linx.paykit.core.Paykit;
 import com.linx.paykit.demo.BuildConfig;
 import com.linx.paykit.demo.GetTransactionActivity;
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                     tvAppVersion.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
                 }
                 if (tvSdkUnicoVersion != null) {
-                    tvSdkUnicoVersion.setText(com.linx.paykit.common.utility.SdkInfo.getSdkUnicoVersion());
+                    tvSdkUnicoVersion.setText(SdkInfo.INSTANCE.getSdkUnicoVersion());
                 }
                 if (tvTefModuleVersion != null) {
                     tvTefModuleVersion.setText("1.0");

@@ -1,5 +1,6 @@
 package com.linx.paykit.demo.util;
 
+import android.content.Context;
 import androidx.activity.ComponentActivity;
 
 import com.linx.paykit.common.builder.Parameters;
@@ -10,23 +11,58 @@ import com.linx.paykit.ui.data.PaykitUiModel;
 
 public class PaykitBuilder {
 
-    public static Paykit buildPaykit(ComponentActivity activity) {
-        // Métodos de companion object em Kotlin sem @JvmStatic são acessados via .Companion em Java
-        PaykitUiModel.Companion.build(
-                activity,
-                null,                               // callback opcional
-                true,                                       // useInternalScreens, deixar false para uso de telas customizadas
-                true,                                       // isDebuggable
-                kotlinx.coroutines.Dispatchers.getIO()      // dispatcher IO
-        );
+    private static Paykit instance;
 
-        return new PaykitFactory().build(
-                new Parameters(
+    public static synchronized Paykit buildPaykit(ComponentActivity activity) {
+        if (instance == null) {
+            if (activity != null) {
+                PaykitUiModel.Companion.build(
                         activity,
-                        "AppTeste",
-                        new PaykitId("HML-B256A8D9-42B9-45DA-AB63-D31FA5BEF748"), // 1 por automação comercial por ambiente (DEV/HML/PRD) - fornecido pela Linx
-                        null
-                )
-        );
+                        null,                               // callback opcional
+                        true,                                       // useInternalScreens
+                        true,                                       // isDebuggable
+                        kotlinx.coroutines.Dispatchers.getIO()      // dispatcher IO
+                );
+            }
+
+            Context appContext = activity != null ? activity.getApplicationContext() : null;
+            instance = new PaykitFactory().build(
+                    new Parameters(
+                            appContext != null ? appContext : (activity != null ? activity : null),
+                            "AppTeste",
+                            new PaykitId("HML-B256A8D9-42B9-45DA-AB63-D31FA5BEF748"), // 1 por automação comercial por ambiente
+                            null
+                    )
+            );
+        }
+        return instance;
+    }
+
+    public static synchronized Paykit buildPaykit(Context context) {
+        if (instance == null) {
+            ComponentActivity activity = null;
+            if (context instanceof ComponentActivity) {
+                activity = (ComponentActivity) context;
+            }
+            if (activity != null) {
+                PaykitUiModel.Companion.build(
+                        activity,
+                        null,
+                        true,
+                        true,
+                        kotlinx.coroutines.Dispatchers.getIO()
+                );
+            }
+
+            instance = new PaykitFactory().build(
+                    new Parameters(
+                            context.getApplicationContext(),
+                            "AppTeste",
+                            new PaykitId("HML-B256A8D9-42B9-45DA-AB63-D31FA5BEF748"),
+                            null
+                    )
+            );
+        }
+        return instance;
     }
 }

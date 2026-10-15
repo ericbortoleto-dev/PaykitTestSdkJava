@@ -121,15 +121,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        Button btnManagePreAuthorization = findViewById(R.id.btnManagePreAuthorization);
-        if (btnManagePreAuthorization != null) {
-            btnManagePreAuthorization.setOnClickListener(v -> {
-                Intent intent = new Intent(MainActivity.this, ManageTransaction.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            });
-        }
-
         Button btnPrintCustomerReceipt = findViewById(R.id.btnPrintCustomerReceipt);
         if (btnPrintCustomerReceipt != null) {
             btnPrintCustomerReceipt.setOnClickListener(view -> {
